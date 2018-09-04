@@ -44,6 +44,14 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+app.get("/u/:shortURL", (req, res) => {
+  let longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
+});
+
+//------------------------------------------------------------//
+
+//this takes the new URL from url/new, and adds it the the urlDatabase
 app.post("/urls", (req, res) => {
   console.log(req.body);  // debug statement to see POST parameters
   //res.send("Ok");         // Respond with 'Ok' (we will replace this)
@@ -54,17 +62,25 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls`);
 });
 
-app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
-});
-
+//this takes the 'action' key /urls/:id/delete that was 'posted' by client
+// and performs the function
 app.post("/urls/:id/delete", (req, res) => {
   console.log(req.body);  // debug statement to see POST parameters
   delete urlDatabase[req.params.id];
   res.redirect(`/urls`);
 });
 
+//this takes the 'action' key /urls/:id/update
+app.post("/urls/:id/update", (req, res) => {
+  console.log(req.body);  // debug statement to see POST parameters
+  urlDatabase[req.params.id] = req.body.longURL;
+  res.redirect(`/urls/${req.params.id}`);
+});
+
+//------------------------------------------------------------//
+
+//the connection between the .ejs pages and this server page
+//the shortURL is mapped to req.params.id, longURL is mapped to urlDatabase[req.params.id]
 app.get("/urls/:id", (req, res) => {
   let templateVars = { shortURL: req.params.id, longURL: urlDatabase[req.params.id] };
   res.render("urls_show", templateVars);
