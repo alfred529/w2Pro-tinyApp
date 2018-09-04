@@ -1,0 +1,22 @@
+{
+  "name": "w2pro-tinyapp",
+  "version": "1.0.0",
+  "description": "Week 2 project - TinyApp",
+  "main": "express_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lighthouse",
+    "week2",
+    "project",
+    "TinyApp"
+  ],
+  "author": "Alfred Law",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3"
+  }
+}
