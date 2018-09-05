@@ -9,13 +9,10 @@ app.use(bodyParser.urlencoded({extended: true}));   // false => object returning
 app.use(cookieParser());
 app.set("view engine", "ejs");
 
-//------------------------------------------------------------//
-
-
-
 
 
 //------------------------------------------------------------//
+//Variable Declarations and Functions
 
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -32,6 +29,7 @@ function generateRandomString() {
 }
 
 //------------------------------------------------------------//
+//App.get
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -72,6 +70,8 @@ app.get("/urls/:id", (req, res) => {
 });
 
 //------------------------------------------------------------//
+//App.post
+
 
 //Cookie store
 app.post("/login", (req, res) => {
@@ -116,7 +116,7 @@ app.post("/urls/:id/update", (req, res) => {
 
 
 //------------------------------------------------------------//
-
+//Port
 
 
 app.listen(PORT, () => {
