@@ -46,6 +46,18 @@ function generateRandomString() {
   return randomURL;
 }
 
+function checkCredentials(userEmail, userPassword) {
+  for (existUsers in users) {
+    if (
+      userEmail === users[existUsers].email &&
+      userPassword === users[existUsers].password) {
+        return true;
+    } else {
+      return false;
+    }
+  }
+}
+
 //------------------------------------------------------------//
 //App.get
 
@@ -132,25 +144,15 @@ app.post("/register", (req, res) => {
 
 // takes the login information to check if it is correct, and logs in and stores cookie
 app.post("/login", (req, res) => {
-  // if email and password not found
-  for (existUsers in users) {
-    if (
-      req.body.email === users[existUsers].email &&
-      req.body.password === users[existUsers].password) {
-        //sets userID cookie
-        res.cookie("user_id", users[existUsers].id);
-        res.redirect(`/login`)
-        return
-    }
+  // check email and password -> if found will redirect and return
+  if (checkCredentials(req.body.email, req.body.password) === true) {
+    //sets userID cookie
+    res.cookie("user_id", users[existUsers].id);
+    res.redirect(`/`)
+  } else {
+    res.status(403).send("Email or password invalid")
   }
-  res.status(403).send("Email or password invalid")
 });
-
-// //Cookie store
-// app.post("/login", (req, res) => {
-//   res.cookie("username", req.body.username);
-//   res.redirect(`/urls`);
-// });
 
 //Cookie delete
 app.post("/logout", (req, res) => {
