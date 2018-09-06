@@ -7,6 +7,10 @@ var PORT = 8080; // default port 8080
 
 const bodyParser = require("body-parser");
 
+const bcrypt = require('bcryptjs');
+const password = "purple-monkey-dinosaur"; // you will probably this from req.params
+const hashedPassword = bcrypt.hashSync(password, 10);
+
 //------------------------------------------------------------//
 //Middleware?
 
@@ -34,12 +38,12 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "asdf"
+    password: bcrypt.hashSync("asdf")
   },
   "user2RandomID": {
       id: "user2RandomID",
       email: "user2@example.com",
-      password: "dishwasher-funk"
+      password: bcrypt.hashSync("dishwasher-funk")
   }
 };
 
@@ -56,12 +60,13 @@ function generateRandomString() {
 
 function checkCredentials(userEmail, userPassword) {
   for (existUsers in users) {
-    console.log(userEmail)
-    console.log(users[existUsers].email)
-    console.log(userPassword)
-    console.log(users[existUsers].password)
+    // console.log(userEmail)
+    // console.log(users[existUsers].email)
+    // console.log(userPassword)
+    // console.log(users[existUsers].password)
     if (userEmail === users[existUsers].email) {
-      if (userPassword === users[existUsers].password) {
+      if (bcrypt.compareSync(userPassword, users[existUsers].password)) {
+        //console.log(bcrypt.compareSync(userPassword))
         return true;
       }
     }
@@ -169,9 +174,10 @@ app.post("/register", (req, res) => {
   users[randomUserID] = {
   id: randomUserID,
   email: req.body.email,
-  password: req.body.password
+  password: bcrypt.hashSync(req.body.password, 10)
   }
-  console.log(users)
+  // console.log(users)
+  console.log(bcrypt.hashSync(req.body.password, 10))
   //sets userID cookie
   res.cookie("user_id", randomUserID);
   //debugging and redirecting
