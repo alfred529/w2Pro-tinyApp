@@ -43,6 +43,8 @@ const users = {
   }
 };
 
+
+
 function generateRandomString() {
   var randomURL = "";
   var possibleChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -67,13 +69,20 @@ function checkCredentials(userEmail, userPassword) {
   return false
 }
 
+
+
 function urlsForUser(id) {
+  const userDatabase = {};
   for (eachFile in urlDatabase) {
-    if (eachFile.userID = id) {
-      const userDatabase[eachFile] =
-    }
+    if (urlDatabase[eachFile]['userID'] === id) {
+      userDatabase[eachFile] = {
+        website: urlDatabase[eachFile]['website'],
+        userID: urlDatabase[eachFile]['userID']
+      };
+    };
   }
-  return userDatabase
+  console.log(userDatabase)
+  return userDatabase;
 }
 
 //------------------------------------------------------------//
@@ -96,17 +105,29 @@ app.get("/hello", (req, res) => {
 
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, user_id: users[req.cookies['user_id']] };
+  if (req.cookies['user_id']) {
+    var userSpecificDatabase = urlsForUser(users[req.cookies['user_id']].id);
+  } else {
+    var userSpecificDatabase = "I AM AN EMTPY DATABASE!"
+  }
+  //console.log(users[req.cookies['user_id']].id)
+  //console.log(userDatabase);
+  let templateVars = { urls: userSpecificDatabase, user_id: users[req.cookies['user_id']] };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  let templateVars = { urls: urlDatabase, user_id: users[req.cookies['user_id']] };
+  if (req.cookies['user_id']) {
+    var userSpecificDatabase = urlsForUser(users[req.cookies['user_id']].id);
+  } else {
+    var userSpecificDatabase = "I AM AN EMPTY DATABASE!"
+  }
+  let templateVars = { urls: userSpecificDatabase, user_id: users[req.cookies['user_id']] };
   res.render("urls_new", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL];
+  let longURL = urlDatabase[req.params.shortURL].website;
   res.redirect(longURL);
 });
 

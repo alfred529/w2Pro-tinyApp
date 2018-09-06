@@ -1,2 +1,15 @@
 <h1>Tiny App</h1>
 
+<% if (!user_id) { %>
+  <form method="GET" action="/login">
+        <button type="submit">Login</button>
+  </form>
+<% } else { %>
+  Logged in as: <%=user_id.email%>
+  <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+  </form>
+<% } %><br>
+<a href="/register">Register as a New User</a> <a href="/urls">My Websites</a> <a href="/urls/new">Add a Website</a>
+
+<hr>

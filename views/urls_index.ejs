@@ -8,18 +8,21 @@
     <%- include partials/_header.ejs %>
   </header>
   <ul>
-    <% for (key in urls) { %>
-    <li><%= `${key}: ${urls[key]}` %>
+    <% if (!user_id) { %>
+      Only logged in users can see their websites!
+    <% } else { %>
+      <% for (key in urls) { %>
+        <% if (urls[key].userID === user_id.id) { %>
+          <li><%= `${key}: ${urls[key].website}` %>
+          <a href="/urls/<%=key%>">Edit</a>
+          <form method="POST" action="/urls/<%=key%>/delete">
+            <button>Delete</button>
+          </form></li>
+        <% } %>
+      <% }; %><br>
+    <% } %>
 
-      <a href="/urls/<%=key%>">Edit</a>
-
-      <form method="POST" action="/urls/<%=key%>/delete">
-        <button>Delete</button>
-      </form></li>
-
-    <% }; %><br>
-
-    <a href="#">Placeholder link</a>
+      <!-- <a href="#">Placeholder link</a> -->
 
   </ul>
 </body>
