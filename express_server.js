@@ -2,7 +2,7 @@
 
 var express = require("express");
 var app = express();
-var cookieParser = require("cookie-parser");
+var cookieSession = require("cookie-session");
 var PORT = 8080; // default port 8080
 
 const bodyParser = require("body-parser");
@@ -16,7 +16,14 @@ const hashedPassword = bcrypt.hashSync(password, 10);
 
 app.use(bodyParser.urlencoded({extended: true}));   // false => object returning will have only strings or arrays in the key-value pair
                                                     // true => can have other values e.g. dates, undefined, null
-app.use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ["Don't touch my cookies!"],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
+
 app.set("view engine", "ejs");
 
 
@@ -110,24 +117,24 @@ app.get("/hello", (req, res) => {
 
 
 app.get("/urls", (req, res) => {
-  if (req.cookies['user_id']) {
-    var userSpecificDatabase = urlsForUser(users[req.cookies['user_id']].id);
+  if (req.session.user_id) {
+    var userSpecificDatabase = urlsForUser(users[req.session.user_id].id);
   } else {
     var userSpecificDatabase = "I AM AN EMTPY DATABASE!"
   }
-  //console.log(users[req.cookies['user_id']].id)
+  //console.log(users[req.session.user_id].id)
   //console.log(userDatabase);
-  let templateVars = { urls: userSpecificDatabase, user_id: users[req.cookies['user_id']] };
+  let templateVars = { urls: userSpecificDatabase, user_id: users[req.session.user_id] };
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  if (req.cookies['user_id']) {
-    var userSpecificDatabase = urlsForUser(users[req.cookies['user_id']].id);
+  if (req.session.user_id) {
+    var userSpecificDatabase = urlsForUser(users[req.session.user_id].id);
   } else {
     var userSpecificDatabase = "I AM AN EMPTY DATABASE!"
   }
-  let templateVars = { urls: userSpecificDatabase, user_id: users[req.cookies['user_id']] };
+  let templateVars = { urls: userSpecificDatabase, user_id: users[req.session.user_id] };
   res.render("urls_new", templateVars);
 });
 
@@ -139,7 +146,7 @@ app.get("/u/:shortURL", (req, res) => {
 //the connection between the .ejs pages and this server page
 //the shortURL is mapped to req.params.id, longURL is mapped to urlDatabase[req.params.id]
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { user_id: users[req.cookies['user_id']], shortURL: req.params.id, longURL: urlDatabase[req.params.id]["website"] };
+  let templateVars = { user_id: users[req.session.user_id], shortURL: req.params.id, longURL: urlDatabase[req.params.id]["website"] };
   res.render("urls_show", templateVars);
 });
 
@@ -148,7 +155,7 @@ app.get("/register", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-  let templateVars = { urls: urlDatabase, user_id: users[req.cookies['user_id']] };
+  let templateVars = { urls: urlDatabase, user_id: users[req.session.user_id] };
   res.render("login", templateVars);
 })
 
@@ -179,7 +186,7 @@ app.post("/register", (req, res) => {
   // console.log(users)
   console.log(bcrypt.hashSync(req.body.password, 10))
   //sets userID cookie
-  res.cookie("user_id", randomUserID);
+  req.session.user_id = randomUserID;
   //debugging and redirecting
   console.log(users[randomUserID]);   // debug statement to see if input correctly
   res.redirect(`/urls`)
@@ -191,7 +198,7 @@ app.post("/login", (req, res) => {
   console.log(checkCredentials(req.body.email, req.body.password))
   if (checkCredentials(req.body.email, req.body.password) === true) {
     //sets userID cookie
-    res.cookie("user_id", users[existUsers].id);
+    req.session.user_id = users[existUsers].id;
     res.redirect(`/urls`)
   } else {
     res.status(403).send("Email or password invalid")
@@ -200,7 +207,7 @@ app.post("/login", (req, res) => {
 
 //Cookie delete
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id")
+  req.session = null;
   res.redirect(`/urls`);
 });
 
@@ -213,10 +220,10 @@ app.post("/urls", (req, res) => {
   const newURL = generateRandomString();
   //console.log(newURL)
   console.log(req.body.longURL);
-  console.log(users[req.cookies['user_id']].id);
+  console.log(users[req.session.user_id].id);
   urlDatabase[newURL] = {
     website: req.body.longURL,
-    userID: users[req.cookies['user_id']].id,
+    userID: users[req.session.user_id].id,
   }
   console.log(urlDatabase)
   res.redirect(`/urls`);
@@ -235,7 +242,7 @@ app.post("/urls/:id/update", (req, res) => {
   console.log(req.body);  // debug statement to see POST parameters
   urlDatabase[req.params.id] = {
     website: req.body.longURL,
-    userID: users[req.cookies['user_id']].id
+    userID: users[req.session.user_id].id
   }
   res.redirect(`/urls`);
 });
