@@ -12,7 +12,7 @@ const password = "purple-monkey-dinosaur"; // you will probably this from req.pa
 const hashedPassword = bcrypt.hashSync(password, 10);
 
 //------------------------------------------------------------//
-//Middleware?
+//Middleware
 
 app.use(bodyParser.urlencoded({extended: true}));   // false => object returning will have only strings or arrays in the key-value pair
                                                     // true => can have other values e.g. dates, undefined, null
@@ -67,13 +67,8 @@ function generateRandomString() {
 
 function checkCredentials(userEmail, userPassword) {
   for (existUsers in users) {
-    // console.log(userEmail)
-    // console.log(users[existUsers].email)
-    // console.log(userPassword)
-    // console.log(users[existUsers].password)
     if (userEmail === users[existUsers].email) {
       if (bcrypt.compareSync(userPassword, users[existUsers].password)) {
-        //console.log(bcrypt.compareSync(userPassword))
         return true;
       }
     }
@@ -93,7 +88,6 @@ function urlsForUser(id) {
       };
     };
   }
-  console.log(userDatabase)
   return userDatabase;
 }
 
@@ -122,8 +116,6 @@ app.get("/urls", (req, res) => {
   } else {
     var userSpecificDatabase = "I AM AN EMTPY DATABASE!"
   }
-  //console.log(users[req.session.user_id].id)
-  //console.log(userDatabase);
   let templateVars = { urls: userSpecificDatabase, user_id: users[req.session.user_id] };
   res.render("urls_index", templateVars);
 });
@@ -183,19 +175,15 @@ app.post("/register", (req, res) => {
   email: req.body.email,
   password: bcrypt.hashSync(req.body.password, 10)
   }
-  // console.log(users)
-  console.log(bcrypt.hashSync(req.body.password, 10))
   //sets userID cookie
   req.session.user_id = randomUserID;
-  //debugging and redirecting
-  console.log(users[randomUserID]);   // debug statement to see if input correctly
+
   res.redirect(`/urls`)
 });
 
 // takes the login information to check if it is correct, and logs in and stores cookie
 app.post("/login", (req, res) => {
   // check email and password -> if found will redirect and return
-  console.log(checkCredentials(req.body.email, req.body.password))
   if (checkCredentials(req.body.email, req.body.password) === true) {
     //sets userID cookie
     req.session.user_id = users[existUsers].id;
@@ -215,31 +203,23 @@ app.post("/logout", (req, res) => {
 
 //this takes the new URL from url/new, and adds it the the urlDatabase
 app.post("/urls", (req, res) => {
-  //console.log(req.body);  // debug statement to see POST parameters
-  //res.send("Ok");         // Respond with 'Ok' (we will replace this)
   const newURL = generateRandomString();
-  //console.log(newURL)
-  console.log(req.body.longURL);
-  console.log(users[req.session.user_id].id);
   urlDatabase[newURL] = {
     website: req.body.longURL,
     userID: users[req.session.user_id].id,
   }
-  console.log(urlDatabase)
   res.redirect(`/urls`);
 });
 
 // this takes the 'action' key /urls/:id/delete that was 'posted' by client
 // and performs the function
 app.post("/urls/:id/delete", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
   delete urlDatabase[req.params.id];
   res.redirect(`/urls`);
 });
 
 //this takes the 'action' key /urls/:id/update
 app.post("/urls/:id/update", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
   urlDatabase[req.params.id] = {
     website: req.body.longURL,
     userID: users[req.session.user_id].id
@@ -257,7 +237,4 @@ app.post("/urls/:id/update", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
-
-//console.log(generateRandomString())
-
 
