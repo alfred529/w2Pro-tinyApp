@@ -5,13 +5,13 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["Screenshot of registration page"] (https://github.com/alfred529/w2Pro-tinyApp/blob/master/docs/register-page.png?raw=true)
+![Screenshot of registration page](https://raw.githubusercontent.com/alfred529/w2Pro-tinyApp/master/docs/register-page.png)
 
-![Screenshot of logged-in page] (https://github.com/alfred529/w2Pro-tinyApp/blob/master/docs/urls-page_logged-in.png?raw=true)
+![Screenshot of logged-in page](https://raw.githubusercontent.com/alfred529/w2Pro-tinyApp/master/docs/urls-page_logged-in.png)
 
-!["Screenshot of short URL edit page"] (https://github.com/alfred529/w2Pro-tinyApp/blob/master/docs/short-url-page.png?raw=true)
+![Screenshot of short URL edit page](https://raw.githubusercontent.com/alfred529/w2Pro-tinyApp/master/docs/short-url-page.png)
 
-!["Screenshot of logged-out page"] (https://github.com/alfred529/w2Pro-tinyApp/blob/master/docs/urls-page_logged-out.png?raw=true)
+![Screenshot of logged-out page](https://raw.githubusercontent.com/alfred529/w2Pro-tinyApp/master/docs/urls-page_logged-out.png)
 
 
 ## Dependencies

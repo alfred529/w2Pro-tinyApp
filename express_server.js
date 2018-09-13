@@ -73,7 +73,7 @@ function checkCredentials(userEmail, userPassword) {
       }
     }
   }
-  return false
+  return false;
 }
 
 
@@ -162,11 +162,13 @@ app.post("/register", (req, res) => {
   randomUserID = generateRandomString();
   if (!req.body.email || !req.body.password) {
     res.status(400).send("Either email or password is not correct")
+    return;
   }
   // if email already exists
   for (existUsers in users) {
     if (req.body.email === users[existUsers].email) {
       res.status(400).send("Email address already registered")
+      return;
     }
   }
   // store new user in USERS object
