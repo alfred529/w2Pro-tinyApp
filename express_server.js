@@ -1,4 +1,4 @@
-//Import dependencies and set port
+// Import dependencies and set port
 
 var express = require("express");
 var app = express();
@@ -12,7 +12,7 @@ const password = "purple-monkey-dinosaur"; // you will probably this from req.pa
 const hashedPassword = bcrypt.hashSync(password, 10);
 
 //------------------------------------------------------------//
-//Middleware
+// Middleware
 
 app.use(bodyParser.urlencoded({extended: true}));   // false => object returning will have only strings or arrays in the key-value pair
                                                     // true => can have other values e.g. dates, undefined, null
@@ -26,9 +26,13 @@ app.use(cookieSession({
 
 app.set("view engine", "ejs");
 
+//------------------------------------------------------------//
+// Use Public folder
+
+app.use(express.static(__dirname + '/public'));
 
 //------------------------------------------------------------//
-//Variable Declarations and Functions
+// Variable Declarations and Functions
 
 var urlDatabase = {
   "b2xVn2": {
@@ -77,7 +81,7 @@ function checkCredentials(userEmail, userPassword) {
 }
 
 
-
+// takes in id, returns the url's stored for that id
 function urlsForUser(id) {
   const userDatabase = {};
   for (eachFile in urlDatabase) {
@@ -94,9 +98,9 @@ function urlsForUser(id) {
 //------------------------------------------------------------//
 //App.get
 
-app.get("/", (req, res) => {
-  res.send("Hello!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello!");
+// });
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
@@ -135,8 +139,8 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(longURL);
 });
 
-//the connection between the .ejs pages and this server page
-//the shortURL is mapped to req.params.id, longURL is mapped to urlDatabase[req.params.id]
+// the connection between the .ejs pages and this server page
+// the shortURL is mapped to req.params.id, longURL is mapped to urlDatabase[req.params.id]
 app.get("/urls/:id", (req, res) => {
   let templateVars = { user_id: users[req.session.user_id], shortURL: req.params.id, longURL: urlDatabase[req.params.id]["website"] };
   res.render("urls_show", templateVars);
@@ -146,7 +150,8 @@ app.get("/register", (req, res) => {
   res.render("register");
 })
 
-app.get("/login", (req, res) => {
+// app.get("/login", (req, res) => {
+app.get("/", (req, res) => {
   let templateVars = { urls: urlDatabase, user_id: users[req.session.user_id] };
   res.render("login", templateVars);
 })
@@ -162,15 +167,18 @@ app.post("/register", (req, res) => {
   randomUserID = generateRandomString();
   if (!req.body.email || !req.body.password) {
     res.status(400).send("Either email or password is not correct")
+    console.log("You should see this!")
     return;
   }
   // if email already exists
   for (existUsers in users) {
     if (req.body.email === users[existUsers].email) {
       res.status(400).send("Email address already registered")
+      console.log("You should see this!")
       return;
     }
   }
+  console.log("You should not see this!")
   // store new user in USERS object
   users[randomUserID] = {
   id: randomUserID,

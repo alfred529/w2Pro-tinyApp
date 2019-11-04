@@ -1,14 +1,36 @@
-<% if (!user_id) { %>
-  Login:
-  <form action="/login" method="post">
-    <label for="email">Email:</label>
-    <input id="email" type="email" name="email">
-    <label for="password">Password:</label><input id="password" type="password" name="password">
-    <input type="submit" value="Login">
-  </form>
-<% } else { %>
-  Logged in as: <%=user_id.email%>
-  <form method="POST" action="/logout">
-        <button type="submit">Logout</button>
-  </form>
-<% } %>
+<!DOCTYPE html>
+<html lang="en">
+  <%- include partials/_head.ejs %>
+
+  <body>
+    <header>
+      <div class="login__header">
+          <span class="login__title">TINY APP</span>
+          <i class="fas fa-box login__logo"></i>
+      </div>
+    </header>
+
+    <div class="login__body">
+      <!-- <p class="login__title">Tiny App</p> -->
+      <p class="login__description">A full stack web application built with Node and Express that allows users to shorten long URLs</p>
+
+      <% if (!user_id) { %>
+        Login:
+        <form action="/login" method="post">
+          <label for="email">Email:</label>
+          <input id="email" type="email" name="email">
+          <label for="password">Password:</label><input id="password" type="password" name="password">
+          <input type="submit" value="Login">
+        </form>
+      
+        Don't have an account? Register
+      <% } else { %>
+        Logged in as: <%=user_id.email%>
+        <form method="POST" action="/logout">
+              <button type="submit">Logout</button>
+        </form>
+      <% } %>
+    </div>
+  </body>
+
+</html>
