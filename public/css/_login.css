@@ -1,4 +1,59 @@
-.login__header {
-    color: red;
-    background-color: yellow;
+.main__header {
+  color: black;
+  background-color: #fff;
+  /* background-color: #fbf9f8; */
+}
+
+.main__title {
+  padding: 20px 0px 20px 40px;
+  font-size: 1.5em;
+  font-family: 'Francois One', sans-serif;
+}
+
+.main__body {
+  font-family: 'Raleway', sans-serif;
+  padding: 20px 10px;
+  background: none;
+  position: relative;
+}
+
+.main__description {
+  position: absolute;
+  width: 500px;
+  right: 50px;
+  top: 50px;
+}
+
+.main__login {
+  position: absolute;
+  width: 500px;
+  right: 50px;
+  top: 150px;
+}
+
+.main__email {
+  padding-top: 20px;
+  position: relative;
+}
+
+.main__email-text, .main__password-text {
+  line-height: 30px;
+}
+
+.main__email-field, .main__password-field {
+  position: absolute;
+  left: 80px;
+  width: 300px;
+}
+
+.main__login-button {
+  border-radius: 4px;
+  background-color: black;
+  color: white;
+  border: none;
+  margin: 8px 0;
+}
+
+.main__register {
+  padding-top: 20px;
 }

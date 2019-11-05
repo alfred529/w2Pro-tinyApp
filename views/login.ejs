@@ -3,32 +3,37 @@
   <%- include partials/_head.ejs %>
 
   <body>
-    <header>
-      <div class="login__header">
-          <span class="login__title">TINY APP</span>
-          <i class="fas fa-box login__logo"></i>
-      </div>
-    </header>
+    <%- include partials/_mainHeader.ejs %>
 
-    <div class="login__body">
+    <div class="main__body">
       <!-- <p class="login__title">Tiny App</p> -->
-      <p class="login__description">A full stack web application built with Node and Express that allows users to shorten long URLs</p>
+      <p class="main__description">Tiny App is a full stack web application built with Node and Express that allows users to shorten long URLs.</p>
 
       <% if (!user_id) { %>
-        Login:
-        <form action="/login" method="post">
-          <label for="email">Email:</label>
-          <input id="email" type="email" name="email">
-          <label for="password">Password:</label><input id="password" type="password" name="password">
-          <input type="submit" value="Login">
-        </form>
-      
-        Don't have an account? Register
-      <% } else { %>
-        Logged in as: <%=user_id.email%>
-        <form method="POST" action="/logout">
-              <button type="submit">Logout</button>
-        </form>
+        <div class="main__login">
+          <i class="far fa-user fa-2x"></i>
+          <form action="/login" method="post">
+            <div class="main__email">
+              <label for="email" class="main__email-text">Email:</label>
+              <input id="email" type="email" name="email" class="main__email-field">
+            </div>
+            <div class="main__password">
+              <label for="password" class="main__password-text">Password:</label>
+              <input id="password" type="password" name="password" class="main__password-field">
+            </div>
+            <input type="submit" value="Login" class="main__login-button">
+          </form>
+          <div class="main__register">
+            New here? <a href="/register">Create Account</a>
+          </div>
+          <% } else { %>
+            Logged in as: <%=user_id.email%>
+            <form method="POST" action="/logout">
+                  <button type="submit">Logout</button>
+            </form>
+    
+            Go to my saved URLs.
+        </div>
       <% } %>
     </div>
   </body>

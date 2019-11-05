@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<link href="/css/style.css" rel="stylesheet" type="text/css">
 <html lang="en">
-  <%- include partials/_header.ejs %>
+  <%- include partials/_head.ejs %>
   <body>
+    <%- include partials/_mainHeader.ejs %>
 
-    Register as a User:
-    <form action="/register" method="post">
-      <label for="email">E-mail:</label>
-      <input id="email" type="email" name="email">
-      <label for="password">Password:</label>
-      <input id="password" type="password" name="password">
-      <input type="submit" value="Register">
-    </form>
+    <div>
+      <p class="register__create-account">Create an Account:</p>
 
+      <form action="/register" method="post">
+        <label for="email">E-mail:</label>
+        <input id="email" type="email" name="email">
+        <label for="password">Password:</label>
+        <input id="password" type="password" name="password">
+        <input type="submit" value="Register">
+      </form>
+
+    </div>
   </body>
 </html>

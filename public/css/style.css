@@ -18,6 +18,18 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+html { 
+  background: url(../images/sarah-dorweiler-x2Tmfd1-SgA-unsplash.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body {
+  background: none !important;
 }
