@@ -2,17 +2,23 @@
 <html lang="en">
   <%- include partials/_head.ejs %>
   <body>
-    <%- include partials/_mainHeader.ejs %>
+    <header>
+      <%- include partials/_mainHeader.ejs %>
+    </header>
+    
+    <div class="register__body">
+      <p class="register__description">Create an Account:</p>
 
-    <div>
-      <p class="register__create-account">Create an Account:</p>
-
-      <form action="/register" method="post">
-        <label for="email">E-mail:</label>
-        <input id="email" type="email" name="email">
-        <label for="password">Password:</label>
-        <input id="password" type="password" name="password">
-        <input type="submit" value="Register">
+      <form action="/register" method="post" class="register__form">
+        <div class="register__email">
+          <label for="email" class="register__email-text">E-mail:</label>
+          <input id="email" type="email" name="email" class="register__email-field">
+        </div>
+        <div class="register__password">
+          <label for="password" class="register__password-text">Password:</label>
+          <input id="password" type="password" name="password" class="register__password-field">
+        </div>
+        <input type="submit" value="Register" class="register__form-button">
       </form>
 
     </div>

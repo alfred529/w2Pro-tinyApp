@@ -1,0 +1,22 @@
+.header__loggedin-as, .header__not-loggedin-register {
+  position: absolute;
+  right: 100px;
+  top: 25px;
+  margin: 0;
+}
+
+.header__loggedin-as__green {
+  color: rgb(26, 110, 0);
+}
+
+.header__loggedin-logout, .header__not-loggedin-button {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+  margin: 0;
+  border-radius: 4px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

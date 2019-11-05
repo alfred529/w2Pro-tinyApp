@@ -2,27 +2,36 @@
 <html lang="en">
   <%- include partials/_head.ejs %>
   
-<body>
-  <header>
-    <%- include partials/_header.ejs %>
-  </header>
-  <ul>
+  <body>
+    <header>
+      <%- include partials/_header.ejs %>
+    </header>
+
     <% if (!user_id) { %>
       Only logged in users can see their websites!
     <% } else { %>
-      <% for (key in urls) { %>
-        <% if (urls[key].userID === user_id.id) { %>
-          <li><%= `${key}: ${urls[key].website}` %>
-          <a href="/urls/<%=key%>">Edit</a>
-          <form method="POST" action="/urls/<%=key%>/delete">
-            <button>Delete</button>
-          </form></li>
-        <% } %>
-      <% }; %><br>
+      <div class="urls__container">
+        
+        <a href="/urls/new" class="urls__add-website">Add a Website</a>
+        
+        <ul class="urls__saved-websites">
+          <% for (key in urls) { %>
+            <% if (urls[key].userID === user_id.id) { %>
+              <li class="urls__li">
+                <div class="urls__link">
+                  <a href="/u/<%=key%>" target="_blank"><%=key%></a> : <%= urls[key].website %>
+                </div>
+                <div class="urls__edit-delete">
+                  <a href="/urls/<%=key%>" class="urls__edit">Edit</a>
+                  <form method="POST" action="/urls/<%=key%>/delete">
+                    <button class="urls__delete">Delete</button>
+                  </form>
+                </div>
+              </li>
+            <% } %>
+          <% }; %>
+        </ul>
+      </div>
     <% } %>
-
-
-
-  </ul>
-</body>
+  </body>
 </html>

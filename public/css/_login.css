@@ -52,6 +52,7 @@
   color: white;
   border: none;
   margin: 8px 0;
+  cursor: pointer;
 }
 
 .main__register {

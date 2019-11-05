@@ -6,7 +6,11 @@
     <% if (!user_id) { %>
       <meta http-equiv="Refresh" content="0; url=/login">
     <% } else { %>
-      <% include partials/_header %>
+      <header>
+        <% include partials/_header %>
+      </header>
+      
+      <a href="/urls">Back to my websites</a> 
       <form action="/urls" method="POST" style="margin:150px;">
         <label for="longURL">Enter a URL:</label>
         <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">

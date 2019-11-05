@@ -206,7 +206,7 @@ app.post("/login", (req, res) => {
 //Cookie delete
 app.post("/logout", (req, res) => {
   req.session = null;
-  res.redirect(`/urls`);
+  res.redirect(`/`);
 });
 
 

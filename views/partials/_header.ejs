@@ -1,18 +1,20 @@
 <!-- <link href="/css/style.css" rel="stylesheet" type="text/css">
 <h1>Tiny App</h1> -->
 
-<%- include partials/_mainHeader.ejs %>
+<%- include _mainHeader.ejs %>
 
 <% if (!user_id) { %>
-  <form method="GET" action="/login">
-        <button type="submit">Login</button>
-  </form>
+  <div class="header__not-loggedin">
+    <a href="/register" class="header__not-loggedin-register">Create Account</a>
+    <form method="GET" action="/">
+      <button type="submit" class="header__not-loggedin-button">Login</button>
+    </form>  
+  </div>
 <% } else { %>
-  Logged in as: <%=user_id.email%>
-  <form method="POST" action="/logout">
-        <button type="submit">Logout</button>
-  </form>
-<% } %><br>
-<a href="/register">Register as a New User</a> <a href="/urls">My Websites</a> <a href="/urls/new">Add a Website</a>
-
-<hr>
+  <div class="header__loggedin">
+    <div class="header__loggedin-as"><span class="header__loggedin-as__green">Logged in as: </span><%=user_id.email%></div>
+    <form method="POST" action="/logout">
+      <button type="submit" class="header__loggedin-logout">Logout</button>
+    </form>
+  </div>
+<% } %>
